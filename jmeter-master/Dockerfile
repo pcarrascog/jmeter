@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 
 #Parametros de la compilacion
 ARG version=4.0
-ARG path=./files
+ARG path=./files/apache-jmeter-${version}.tgz
 
 #Instalando dependencias y creando usuario
 RUN apt-get -y update \
@@ -18,16 +18,16 @@ ENV HOME /home/tsoft/
 USER tsoft
 
 #Definiendo espacio de trabajo
-WORKDIR $HOME
+WORKDIR ${HOME}
 
 #Agregando archivo de Jmeter
-ADD $path/apache-jmeter-$version.tar.gz .
+ADD $path .
 
 #Definiendo espacio de trabajo
-WORKDIR $HOME/apache-jmeter-$version/bin
+WORKDIR $HOME/apache-jmeter-${version}/bin
 
 #Exponiendo puerto
 EXPOSE 1099
 
 #Ejecutando jmeter server
-CMD ./jmeter -D server.rmi.ssl.keystore.password=changeit -D server.rmi.ssl.keystore.alias=rmi -n -t ./tsoft/$NAME.jmx -l ./tsoft/results/$(date +%Y%m%d%H%M%S)-$NAME.csv -j ./tsoft/results/$(date +%Y%m%d%H%M%S)-$NAME.log -R $PORT
+CMD ./jmeter -D server.rmi.ssl.keystore.password=changeit -D server.rmi.ssl.keystore.alias=rmi -n -t ./tsoft/${NAME}.jmx -l ./tsoft/results/$(date +%Y%m%d%H%M%S)-${NAME}.csv -j ./tsoft/results/$(date +%Y%m%d%H%M%S)-${NAME}.log -R ${IP}
