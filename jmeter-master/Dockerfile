@@ -14,20 +14,25 @@ RUN apt-get -y update \
 #Definiendo variable de entorno
 ENV HOME /home/tsoft/
 
-#Cambiando a usuario tsoft
-USER tsoft
-
 #Definiendo espacio de trabajo
 WORKDIR ${HOME}
 
 #Agregando archivo de Jmeter
 ADD $path .
 
+#Asignando permisos
+RUN chown -R tsoft:tsoft $HOME/apache-jmeter-${version}/
+
+#Cambiando a usuario tsoft
+USER tsoft
+
+#Exponiendo directorios
+VOLUME $HOME/apache-jmeter-${version}/tsoft/tests
+VOLUME $HOME/apache-jmeter-${version}/tsoft/tests/data
+VOLUME $HOME/apache-jmeter-${version}/tsoft/results
+
 #Definiendo espacio de trabajo
 WORKDIR $HOME/apache-jmeter-${version}/bin
 
-#Exponiendo puerto
-EXPOSE 1099
-
 #Ejecutando jmeter server
-CMD ./jmeter -D server.rmi.ssl.keystore.password=changeit -D server.rmi.ssl.keystore.alias=rmi -n -t ./tsoft/${NAME}.jmx -l ./tsoft/results/$(date +%Y%m%d%H%M%S)-${NAME}.csv -j ./tsoft/results/$(date +%Y%m%d%H%M%S)-${NAME}.log -R ${IP}
+CMD ./jmeter -D server.rmi.ssl.keystore.password=changeit -D server.rmi.ssl.keystore.alias=rmi -n -t ./tsoft/tests/${NAME}.jmx -l ./tsoft/results/$(date +%Y%m%d%H%M%S)-${NAME}.csv -j ./tsoft/results/$(date +%Y%m%d%H%M%S)-${NAME}.log -R ${IP}
