@@ -23,13 +23,13 @@ ADD $path .
 #Asignando permisos
 RUN chown -R tsoft:tsoft $HOME/apache-jmeter-${version}/
 
-#Cambiando a usuario tsoft
-USER tsoft
-
 #Exponiendo directorios
 VOLUME $HOME/apache-jmeter-${version}/tsoft/tests
 VOLUME $HOME/apache-jmeter-${version}/tsoft/tests/data
 VOLUME $HOME/apache-jmeter-${version}/tsoft/results
+
+#Cambiando a usuario tsoft
+USER tsoft
 
 #Definiendo espacio de trabajo
 WORKDIR $HOME/apache-jmeter-${version}/bin
