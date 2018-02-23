@@ -24,8 +24,10 @@ ADD $path .
 RUN chown -R tsoft:tsoft $HOME/apache-jmeter-${version}/
 
 #Exponiendo directorios
-VOLUME $HOME/apache-jmeter-${version}/tsoft/tests
-VOLUME $HOME/apache-jmeter-${version}/tsoft/results
+VOLUME $HOME/apache-jmeter-${version}/bin/tsoft/tests
+VOLUME $HOME/apache-jmeter-${version}/bin/tsoft/tests/data
+VOLUME $HOME/apache-jmeter-${version}/bin/tsoft/results
+VOLUME $HOME/apache-jmeter-${version}/bin/tsoft/certificate
 
 #Cambiando a usuario tsoft
 USER tsoft
@@ -34,7 +36,7 @@ USER tsoft
 WORKDIR $HOME/apache-jmeter-${version}/bin
 
 #Agregando metadatos
-LABEL owner="tsoft" jmeter_version=${version} rol="jmeter-master" volume_tests=$HOME/apache-jmeter-${version}/tsoft/tests volume_results=$HOME/apache-jmeter-${version}/tsoft/results enviroment_vars="test_name, ip_server"
+LABEL owner="tsoft" jmeter_version=${version} rol="jmeter-master" enviroment_vars="test_name, ip_server"
 
 #Ejecutando jmeter server
 CMD ./jmeter -D server.rmi.ssl.keystore.password=changeit -D server.rmi.ssl.keystore.alias=rmi -n -t ./tsoft/tests/${test_name}.jmx -l ./tsoft/results/$(date +%Y%m%d%H%M%S)-${test_name}.csv -j ./tsoft/results/$(date +%Y%m%d%H%M%S)-${test_name}.log -R ${ip_server}
