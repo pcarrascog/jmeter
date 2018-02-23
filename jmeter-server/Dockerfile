@@ -32,6 +32,8 @@ USER tsoft
 #Definiendo espacio de trabajo
 WORKDIR $HOME/apache-jmeter-${version}/bin
 
+#Agregando metadatos
+LABEL owner="tsoft" jmeter_version=${version} rol="jmeter-server" exposed_port="1099" 
+
 #Ejecutando jmeter server
-#CMD ./jmeter-server -D server_port=1099 -D server.rmi.ssl.keystore.password=changeit -D server.rmi.ssl.keystore.alias=rmi
 CMD ./jmeter-server -D server_port=1099

@@ -34,5 +34,8 @@ USER tsoft
 #Definiendo espacio de trabajo
 WORKDIR $HOME/apache-jmeter-${version}/bin
 
+#Agregando metadatos
+LABEL owner="tsoft" jmeter_version=${version} rol="jmeter-master" volume_test=$HOME/apache-jmeter-${version}/tsoft/tests volume_data=$HOME/apache-jmeter-${version}/tsoft/tests/data volume_results=$HOME/apache-jmeter-${version}/tsoft/results enviroment_var="test_name, ip_address_server"
+
 #Ejecutando jmeter server
-CMD ./jmeter -D server.rmi.ssl.keystore.password=changeit -D server.rmi.ssl.keystore.alias=rmi -n -t ./tsoft/tests/${NAME}.jmx -l ./tsoft/results/$(date +%Y%m%d%H%M%S)-${NAME}.csv -j ./tsoft/results/$(date +%Y%m%d%H%M%S)-${NAME}.log -R ${IP}
+CMD ./jmeter -D server.rmi.ssl.keystore.password=changeit -D server.rmi.ssl.keystore.alias=rmi -n -t ./tsoft/tests/${test_name}.jmx -l ./tsoft/results/$(date +%Y%m%d%H%M%S)-${test_name}.csv -j ./tsoft/results/$(date +%Y%m%d%H%M%S)-${test_name}.log -R ${ip_address_server}
