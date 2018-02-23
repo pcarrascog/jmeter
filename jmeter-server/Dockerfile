@@ -26,6 +26,10 @@ RUN chown -R tsoft:tsoft $HOME/apache-jmeter-${version}/
 #Exponiendo puerto
 EXPOSE 1099
 
+#Exponiendo directorios
+VOLUME $HOME/apache-jmeter-${version}/bin/tsoft/certificate
+VOLUME $HOME/apache-jmeter-${version}/bin/tsoft/tests/data
+
 #Cambiando a usuario tsoft
 USER tsoft
 
@@ -33,7 +37,7 @@ USER tsoft
 WORKDIR $HOME/apache-jmeter-${version}/bin
 
 #Agregando metadatos
-LABEL owner="tsoft" jmeter_version=${version} rol="jmeter-server" exposed_port="1099" 
+LABEL owner="tsoft" jmeter_version=${version} jmeter_rol="jmeter-server" exposed_port="1099" 
 
 #Ejecutando jmeter server
-CMD ./jmeter-server -D server_port=1099
+CMD ./jmeter-server -D server.rmi.ssl.keystore.file=./tsoft/certificate/rmi_keystore.jks -D server_port=1099
