@@ -12,7 +12,7 @@ RUN apt-get -y update \
     && useradd -m -s /bin/bash tsoft
 
 #Definiendo variable de entorno
-ENV HOME /home/tsoft/
+ENV HOME /home/tsoft
 
 #Definiendo espacio de trabajo
 WORKDIR ${HOME}
