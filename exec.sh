@@ -8,7 +8,7 @@ while getopts r:v:t:s: option; do
     esac
 done
 if [ ${ROL} = "server" ]; then
-    docker run -i -t \
+    docker run -d -i -t \
     -v ${VOLUME}/tests/data:/home/tsoft/apache-jmeter/bin/workspace/data \
     -v ${VOLUME}/certificate:/home/tsoft/apache-jmeter/bin/workspace/certificate \
     -p 1099:1099 \
