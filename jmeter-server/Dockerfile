@@ -2,7 +2,7 @@
 FROM ubuntu:16.04
 
 #Parametros de la compilacion
-ARG version=4.0
+ARG version=3.3
 ARG path=./files/apache-jmeter-${version}.tgz
 
 #Instalando dependencias y creando usuario
@@ -23,7 +23,7 @@ ADD ${path} .
 #Asignando permisos y crando espacio de trabajo
 RUN mv apache-jmeter-${version} apache-jmeter \
     && mkdir -p apache-jmeter/bin/tsoft/tests/data \
-    && mkdir -p apache-jmeter/bin/tsoft/certificate \    
+    #&& mkdir -p apache-jmeter/bin/tsoft/certificate \    
     && chown -R tsoft:tsoft apache-jmeter/
 
 #Exponiendo puerto
@@ -31,7 +31,7 @@ EXPOSE 1099
 
 #Exponiendo directorios
 VOLUME ${HOME}/apache-jmeter/bin/tsoft/tests/data
-VOLUME ${HOME}/apache-jmeter/bin/tsoft/certificate
+#VOLUME ${HOME}/apache-jmeter/bin/tsoft/certificate
 
 #Cambiando a usuario tsoft
 USER tsoft
@@ -43,4 +43,6 @@ WORKDIR ${HOME}/apache-jmeter/bin
 LABEL owner="tsoft" jmeter_version=${version} jmeter_rol="jmeter-server" exposed_port="1099" 
 
 #Ejecutando jmeter server
-CMD ./jmeter-server -D server.rmi.ssl.keystore.file=./tsoft/certificate/rmi_keystore.jks -D server_port=1099
+#CMD ./jmeter-server -D server.rmi.ssl.keystore.file=./tsoft/certificate/rmi_keystore.jks -D server_port=1099
+CMD ./jmeter-server -D server_port=1099
+
