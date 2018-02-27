@@ -40,7 +40,7 @@ USER tsoft
 WORKDIR ${HOME}/apache-jmeter/bin
 
 #Metadatos
-LABEL owner="tsoft" jmeter_version=${version} jmeter_rol="jmeter-server" exposed_port="1099" 
+LABEL jmeter_version=${version} jmeter_rol="jmeter-server" 
 
 #Jmeter Server
-CMD ./jmeter-server -D server.rmi.ssl.keystore.file=./tsoft/certificate/rmi_keystore.jks -D server_port=1099
+CMD ./jmeter-server -D server.rmi.ssl.keystore.file=./workspace/certificate/rmi_keystore.jks -D server_port=1099
