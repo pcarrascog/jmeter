@@ -42,4 +42,11 @@ WORKDIR ${HOME}/apache-jmeter/bin
 LABEL jmeter_version=${version} jmeter_rol="jmeter-master" cmd_vars="test_name, ip_server"
 
 #Jmeter Master
-CMD ./jmeter -n -t ./workspace/tests/${test_name}.jmx -l ./workspace/results/$(date +%Y%m%d%H%M%S)-${test_name}.csv -j ./workspace/results/$(date +%Y%m%d%H%M%S)-${test_name}.log -R ${ip_server} -D server.rmi.ssl.keystore.file=./workspace/certificate/rmi_keystore.jks -D server.rmi.ssl.keystore.password=changeit -D server.rmi.ssl.keystore.alias=rmi
+CMD ./jmeter -n \
+    -t ./workspace/tests/${test_name}.jmx \
+    -l ./workspace/results/$(date +%Y%m%d%H%M%S)-${test_name}.csv \
+    -j ./workspace/results/$(date +%Y%m%d%H%M%S)-${test_name}.log \
+    -R ${ip_server} \
+    -D server.rmi.ssl.keystore.file=./workspace/certificate/rmi_keystore.jks \
+    -D server.rmi.ssl.keystore.password=changeit \
+    -D server.rmi.ssl.keystore.alias=rmi

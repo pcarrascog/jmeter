@@ -40,7 +40,9 @@ USER tsoft
 WORKDIR ${HOME}/apache-jmeter/bin
 
 #Metadatos
-LABEL jmeter_version=${version} jmeter_rol="jmeter-server" 
+LABEL jmeter_version=${version} jmeter_rol="jmeter-server" jmeter_server_port="1099"
 
 #Jmeter Server
-CMD ./jmeter-server -D server.rmi.ssl.keystore.file=./workspace/certificate/rmi_keystore.jks -D server_port=1099
+CMD ./jmeter-server \
+    -D server.rmi.ssl.keystore.file=./workspace/certificate/rmi_keystore.jks \
+    -D server_port=1099
