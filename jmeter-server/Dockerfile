@@ -18,23 +18,26 @@ ENV HOME /home/tsoft
 WORKDIR ${HOME}
 
 #Agregando archivo de Jmeter
-ADD $path .
+ADD ${path} .
 
-#Asignando permisos
-RUN chown -R tsoft:tsoft $HOME/apache-jmeter-${version}/
+#Asignando permisos y crando espacio de trabajo
+RUN mv apache-jmeter-${version} apache-jmeter \
+    && mkdir -p apache-jmeter/bin/tsoft/tests/data \
+    && mkdir -p apache-jmeter/bin/tsoft/certificate \    
+    && chown -R tsoft:tsoft apache-jmeter/
 
 #Exponiendo puerto
 EXPOSE 1099
 
 #Exponiendo directorios
-VOLUME $HOME/apache-jmeter-${version}/bin/tsoft/certificate
-VOLUME $HOME/apache-jmeter-${version}/bin/tsoft/tests/data
+VOLUME ${HOME}/apache-jmeter/bin/tsoft/tests/data
+VOLUME ${HOME}/apache-jmeter/bin/tsoft/certificate
 
 #Cambiando a usuario tsoft
 USER tsoft
 
 #Definiendo espacio de trabajo
-WORKDIR $HOME/apache-jmeter-${version}/bin
+WORKDIR ${HOME}/apache-jmeter/bin
 
 #Agregando metadatos
 LABEL owner="tsoft" jmeter_version=${version} jmeter_rol="jmeter-server" exposed_port="1099" 
