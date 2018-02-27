@@ -1,48 +1,46 @@
-#Tomando como base la imagen de Ubuntu 16.04
+#Base de Ubuntu
 FROM ubuntu:16.04
 
-#Parametros de la compilacion
-ARG version=3.3
-ARG path=./files/apache-jmeter-${version}.tgz
+#Parametros de Compilacion
+ARG version=4.0
 
-#Instalando dependencias y creando usuario
+#Dependencias y Usuario
 RUN apt-get -y update \
     && apt-get install -y --no-install-recommends openjdk-8-jre-headless \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m -s /bin/bash tsoft
 
-#Definiendo variable de entorno
+#Variables de Entorno
 ENV HOME /home/tsoft
 
-#Definiendo espacio de trabajo
+#Directorio de Trabajo
 WORKDIR ${HOME}
 
-#Agregando archivo de Jmeter
-ADD ${path} .
+#Jmeter
+ADD https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${version}.tgz .
 
-#Asignando permisos y crando espacio de trabajo
-RUN mv apache-jmeter-${version} apache-jmeter \
-    && mkdir -p apache-jmeter/bin/tsoft/tests/data \
-    #&& mkdir -p apache-jmeter/bin/tsoft/certificate \    
+#Permisos y Espacio de Trabajo
+RUN tar -zxvf apache-jmeter-${version}.tgz \
+    && mv apache-jmeter-${version} apache-jmeter \
+    && mkdir -p apache-jmeter/bin/workspace/data \
+    && mkdir -p apache-jmeter/bin/workspace/certificate \    
     && chown -R tsoft:tsoft apache-jmeter/
 
-#Exponiendo puerto
+#Puertos
 EXPOSE 1099
 
-#Exponiendo directorios
-VOLUME ${HOME}/apache-jmeter/bin/tsoft/tests/data
-#VOLUME ${HOME}/apache-jmeter/bin/tsoft/certificate
+#Directorios
+VOLUME ${HOME}/apache-jmeter/bin/workspace/data
+VOLUME ${HOME}/apache-jmeter/bin/workspace/certificate
 
-#Cambiando a usuario tsoft
+#Usuario
 USER tsoft
 
-#Definiendo espacio de trabajo
+#Directorio de Trabajo
 WORKDIR ${HOME}/apache-jmeter/bin
 
-#Agregando metadatos
+#Metadatos
 LABEL owner="tsoft" jmeter_version=${version} jmeter_rol="jmeter-server" exposed_port="1099" 
 
-#Ejecutando jmeter server
-#CMD ./jmeter-server -D server.rmi.ssl.keystore.file=./tsoft/certificate/rmi_keystore.jks -D server_port=1099
-CMD ./jmeter-server -D server_port=1099
-
+#Jmeter Server
+CMD ./jmeter-server -D server.rmi.ssl.keystore.file=./tsoft/certificate/rmi_keystore.jks -D server_port=1099
