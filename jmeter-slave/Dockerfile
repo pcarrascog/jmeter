@@ -11,7 +11,7 @@ EXPOSE 1099 50000
 VOLUME ${JMETER_HOME}/bin/workspace/data
 
 #Jmeter Slave
-ENTRYPOINT jmeter-server \
+ENTRYPOINT ./jmeter-server \
     -Dserver.rmi.localport=50000 \
     -Dserver_port=1099 \
     -Djava.rmi.server.hostname=${LOCAL_IP}

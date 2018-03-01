@@ -12,7 +12,7 @@ VOLUME ${JMETER_HOME}/bin/workspace/tests
 VOLUME ${JMETER_HOME}/bin/workspace/results
 
 #Jmeter Master
-ENTRYPOINT jmeter -n \
+ENTRYPOINT ./jmeter -n \
     -t ./workspace/tests/${TEST_NAME}.jmx \
     -l ./workspace/results/$(date +%Y%m%d%H%M%S)-${TEST_NAME}.csv \
     -j ./workspace/results/$(date +%Y%m%d%H%M%S)-${TEST_NAME}.log \
